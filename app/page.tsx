@@ -1,65 +1,127 @@
-import Image from "next/image";
+'use client'
+
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth-context";
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-pulse text-black text-lg">Loading...</div>
+      </div>
+    );
+  }
+
+  if (user) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-black mb-4">Welcome back!</h1>
+          <p className="text-gray-600 mb-8">You're already logged in.</p>
+          <Button asChild>
+            <Link href="/dashboard">Go to Dashboard</Link>
+          </Button>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-2xl font-bold text-black">CalorieTracker</h1>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" asChild>
+                <Link href="/auth">Sign In</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/auth">Get Started</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center">
+          <h1 className="text-6xl font-bold text-black mb-6 tracking-tight">
+            Track Your Calories
+            <br />
+            <span className="text-gray-500">With Precision</span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+            A minimalistic approach to calorie tracking. 
+            Focus on what matters most - your health and fitness goals.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild className="bg-black text-white hover:bg-gray-800">
+              <Link href="/auth">Start Tracking</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="border-black text-black hover:bg-gray-50">
+              <Link href="#features">Learn More</Link>
+            </Button>
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div id="features" className="mt-32">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-black mb-4">Simple. Clean. Effective.</h2>
+            <p className="text-gray-600 text-lg">Everything you need, nothing you don't.</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-black rounded-full mx-auto mb-6 flex items-center justify-center">
+                <span className="text-white text-2xl font-bold">📊</span>
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Track Everything</h3>
+              <p className="text-gray-600">
+                Log your meals, snacks, and drinks with our intuitive interface.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-black rounded-full mx-auto mb-6 flex items-center justify-center">
+                <span className="text-white text-2xl font-bold">🎯</span>
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Set Goals</h3>
+              <p className="text-gray-600">
+                Define your daily calorie targets and track your progress.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-black rounded-full mx-auto mb-6 flex items-center justify-center">
+                <span className="text-white text-2xl font-bold">📈</span>
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Visualize Progress</h3>
+              <p className="text-gray-600">
+                See your journey with clean, minimalistic charts and insights.
+              </p>
+            </div>
+          </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-200 mt-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center text-gray-600">
+            <p>&copy; 2024 CalorieTracker. Built with precision.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
