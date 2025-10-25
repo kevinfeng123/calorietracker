@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import Link from 'next/link'
 
 export default function Dashboard() {
   const { user, signOut, loading } = useAuth()
@@ -47,6 +48,9 @@ export default function Dashboard() {
               <h1 className="text-2xl font-bold text-black">CalorieTracker</h1>
             </div>
             <div className="flex items-center space-x-4">
+              <Link href="/meals" className="text-gray-600 hover:text-black transition-colors">
+                Meals
+              </Link>
               <span className="text-gray-600">Welcome, {user.email}</span>
               <Button variant="outline" onClick={handleSignOut} className="border-black text-black hover:bg-gray-50">
                 Sign Out
@@ -105,11 +109,11 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
-              <Button className="bg-black text-white hover:bg-gray-800">
-                Add Meal
+              <Button asChild className="bg-black text-white hover:bg-gray-800">
+                <Link href="/meals">Add Meal</Link>
               </Button>
-              <Button variant="outline" className="border-black text-black hover:bg-gray-50">
-                View History
+              <Button variant="outline" asChild className="border-black text-black hover:bg-gray-50">
+                <Link href="/meals">View Meals</Link>
               </Button>
             </div>
           </CardContent>
